@@ -3,13 +3,13 @@ QT       -= gui
 TARGET = qtqrcode
 TEMPLATE = lib
 
-DEFINES += LIB_LIBRARY
+DEFINES += QTQRCODE_LIBRARY
 
 SOURCES += \
     qtqrcode.cpp
 
 HEADERS +=\
-    qtqrcode_global.hpp \
+    qtqrcode_global.h \
     qtqrcode.h
 
 INCLUDEPATH += $$PWD

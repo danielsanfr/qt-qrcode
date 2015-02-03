@@ -30,7 +30,7 @@
 
 #include "qtqrcode_global.h"
 
-class LIBSHARED_EXPORT QtQrCode
+class QTQRCODESHARED_EXPORT QtQrCode
 {
 
 public:

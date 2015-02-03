@@ -25,15 +25,15 @@
  *
  ***************************************************************************/
 
-#ifndef LIB_GLOBAL_H
-#define LIB_GLOBAL_H
+#ifndef QTQRCODE_GLOBAL_H
+#define QTQRCODE_GLOBAL_H
 
 #include <QtCore/qglobal.h>
 
-#if defined(LIB_LIBRARY)
-#  define LIBSHARED_EXPORT Q_DECL_EXPORT
+#if defined(QTQRCODE_LIBRARY)
+#  define QTQRCODESHARED_EXPORT Q_DECL_EXPORT
 #else
-#  define LIBSHARED_EXPORT Q_DECL_IMPORT
+#  define QTQRCODESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // LIB_GLOBAL_H
+#endif // QTQRCODE_GLOBAL_H
