@@ -1,16 +1,24 @@
-QT       -= gui
-
 TARGET = qtqrcode
 TEMPLATE = lib
 
-DEFINES += QTQRCODE_LIBRARY
+DEFINES += \
+    QTQRCODE_LIBRARY \
+    QTQRCODE_PLUS_FEATURES
+
+contains(DEFINES, QTQRCODE_PLUS_FEATURES) {
+    QT      += gui svg
+} else {
+    QT      -= gui
+}
 
 SOURCES += \
-    qtqrcode.cpp
+    qtqrcode.cpp \
+    qtqrcodepainter.cpp
 
 HEADERS +=\
     qtqrcode_global.h \
-    qtqrcode.h
+    qtqrcode.h \
+    qtqrcodepainter.h
 
 INCLUDEPATH += $$PWD
 
