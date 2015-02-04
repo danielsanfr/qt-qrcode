@@ -7,18 +7,23 @@ DEFINES += \
 
 contains(DEFINES, QTQRCODE_PLUS_FEATURES) {
     QT      += gui svg
+
+    SOURCES += \
+        qtqrcodepainter.cpp
+
+    HEADERS +=\
+        qtqrcodepainter.h
+
 } else {
     QT      -= gui
 }
 
 SOURCES += \
-    qtqrcode.cpp \
-    qtqrcodepainter.cpp
+    qtqrcode.cpp
 
 HEADERS +=\
     qtqrcode_global.h \
-    qtqrcode.h \
-    qtqrcodepainter.h
+    qtqrcode.h
 
 INCLUDEPATH += $$PWD
 
