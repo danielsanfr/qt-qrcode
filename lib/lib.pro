@@ -22,7 +22,10 @@ HEADERS +=\
 
 INCLUDEPATH += $$PWD
 
+include(../defaults.pri)
 include(libqrencode.pri)
+# Default rules for deployment.
+include(deployment.pri)
 
 unix {
     target.path = /usr/lib
