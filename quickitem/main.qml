@@ -26,44 +26,39 @@
  ***************************************************************************/
 
 import QtQuick 2.4
-import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
-import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.1
 
-ApplicationWindow {
+import QtQrCode.Component 1.0
+
+Window {
+    id: window
+    property string qrCodeData: "Hello QR Code"
     title: qsTr("Hello World")
     width: 640
     height: 480
     visible: true
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&File")
-            MenuItem {
-                text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"));
-            }
-            MenuItem {
-                text: qsTr("E&xit")
-                onTriggered: Qt.quit();
-            }
-        }
-    }
-
-    MainForm {
+    ColumnLayout {
+        spacing: 20
+        anchors.margins: 40
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
-    }
-
-    MessageDialog {
-        id: messageDialog
-        title: qsTr("May I have your attention, please?")
-
-        function show(caption) {
-            messageDialog.text = caption;
-            messageDialog.open();
+        Text {
+            text: "The content of the QR code is:<br><b>" + window.qrCodeData + "</b>"
+            horizontalAlignment: Text.AlignHCenter
+            Layout.fillWidth: true
+            font.pointSize: 25
+            wrapMode: Text.WordWrap
         }
-    }
-}
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            QtQrCode {
+                data: window.qrCodeData
+                width: Math.min(parent.height, parent.width)
+                height:  width
+                anchors.centerIn: parent
+            } // QtQrCode
+        } // Rectangle
+    } // ColumnLayout
+} // Window

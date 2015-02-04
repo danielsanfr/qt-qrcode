@@ -28,9 +28,13 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
+#include "QtQrCodeQuickItem.hpp"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QtQrCodeQuickItem::registerQmlTypes();
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
