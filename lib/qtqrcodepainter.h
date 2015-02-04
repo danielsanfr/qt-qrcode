@@ -45,7 +45,9 @@ public:
     ~QtQrCodePainter();
 
     void paint(QPainter &painter);
-    void paint(QPainter &painter, QtQrCode qrCode);
+    void paint(QPainter &painter, const QtQrCode &qrCode);
+    void paint(QPainter &painter, const QtQrCode &qrCode, int width, int height);
+    void paint(QPainter &painter, const QtQrCode &qrCode, int painterWidth);
     bool toSvg(const QString &fileName, int size);
     bool toSvg(const QString &fileName, int size, const QtQrCode &qrCode);
     QImage toImage(int size);

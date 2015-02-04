@@ -42,33 +42,46 @@ QtQrCodePainter::~QtQrCodePainter()
 {
 }
 
-void QtQrCodePainter::paint(QPainter &painter)
-{
+void QtQrCodePainter::paint(QPainter &painter) {
     this->paint(painter, m_qrCode);
 }
 
-void QtQrCodePainter::paint(QPainter &painter, QtQrCode qrCode)
+void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode)
+{
+    this->paint(painter, qrCode, qrCode.width() + m_margin * 2);
+}
+
+void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int width, int height)
+{
+    float aspect = width/(float) height;
+    int painterWidt = (aspect > 1.0) ? height : width;
+    this->paint(painter, qrCode, painterWidt + m_margin*2);
+}
+
+void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int painterWidth)
 {
     if (qrCode.data().isEmpty())
         return;
-    int width = qrCode.width() + m_margin * 2;
-    painter.setClipRect(QRect(0, 0, width, width));
+    unsigned char *row, *data;
+    int width = qrCode.width();
+    if (width < 0)
+        width = 1;
+    QRect rectangle(0, 0, painterWidth, painterWidth);
+    double scale = (painterWidth - 2.0*m_margin)/width;
+
     painter.setPen(m_pen);
     painter.setBrush(m_foreground);
+    painter.setClipRect(rectangle);
+    // Make solid background
+    painter.fillRect(rectangle, m_background);
 
-    /* Make solid background */
-    painter.fillRect(QRect(0, 0, width, width), m_background);
-
-    /* Write data */
-    width = qrCode.width();
-    unsigned char *row, *data;
     data = (unsigned char *) qrCode.data().constData();
     for(int y = 0; y < width; ++y) {
         row = (data + y * width);
         /* no RLE */
         for(int x = 0; x < width; ++x) {
             if(*(row + x) & 0x1)
-                painter.drawRect(m_margin + x, m_margin + y, 1, 1);
+                painter.drawRect(m_margin + x*scale, m_margin + y*scale, scale, scale);
         }
     }
 }
