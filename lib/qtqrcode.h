@@ -54,12 +54,17 @@ public:
         HighLevel = QR_ECLEVEL_H
     };
     QtQrCode();
+    QtQrCode(const QByteArray &data, int version,
+             ErrorCorrectionLevel errorCorrectionLevel = LowLevel);
+    QtQrCode(const QByteArray &data, int version, EncodeMode encodeMode = StringMode);
+    QtQrCode(const QByteArray &data, int version, int margin, EncodeMode encodeMode,
+             Proportion proportion, Qt::CaseSensitivity caseSensitivity,
+             ErrorCorrectionLevel errorCorrectionLevel);
     QtQrCode(const QtQrCode &);
     QtQrCode &operator=(const QtQrCode &);
     ~QtQrCode();
 
     int width() const;
-    void setWidth(int width);
 
     int margin() const;
     void setMargin(int margin);

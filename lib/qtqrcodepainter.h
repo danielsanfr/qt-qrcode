@@ -25,8 +25,8 @@
  *
  ***************************************************************************/
 
-#ifndef QRCODEFACTORY_HPP
-#define QRCODEFACTORY_HPP
+#ifndef QRCODEPAINTER_H
+#define QRCODEPAINTER_H
 
 #include <QPen>
 #include <QImage>
@@ -60,21 +60,21 @@ public:
     inline const QtQrCode &qrCode() const { return m_qrCode; }
     inline void setQrCode(const QtQrCode &qrCode) { m_qrCode = qrCode; }
 
-    inline const QBrush &foreground() { return m_foreground; }
-    inline void setForeground(const QBrush &foreground)
-    { m_foreground = foreground; }
-
     inline const QBrush &background() { return m_background; }
     inline void setBackground(const QBrush &background)
     { m_background = background; }
+
+    inline const QBrush &foreground() { return m_foreground; }
+    inline void setForeground(const QBrush &foreground)
+    { m_foreground = foreground; }
 
 private:
     QPen m_pen;
     int m_margin;
     QtQrCode m_qrCode;
-    QBrush m_foreground;
     QBrush m_background;
+    QBrush m_foreground;
     QtQrCodePainter();
 };
 
-#endif // QRCODEFACTORY_HPP
+#endif // QRCODEPAINTER_H

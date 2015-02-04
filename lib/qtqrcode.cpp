@@ -29,6 +29,12 @@
 
 #include <QString>
 
+int discardNegativeNumber(int number) {
+    if (number < 0)
+        return 0;
+    return number;
+}
+
 class QtQrCodeData : public QSharedData
 {
     friend class QtQrCode;
@@ -45,6 +51,63 @@ private:
 
 QtQrCode::QtQrCode() : d(new QtQrCodeData)
 {
+    d->width = 0;
+    d->margin = 0;
+    d->version = 0;
+    d->encodeMode = StringMode;
+    d->proportion = NormalProportion;
+    d->caseSensitivity = Qt::CaseSensitive;
+    d->errorCorrectionLevel = LowLevel;
+}
+
+QtQrCode::QtQrCode(const QByteArray &data, int version,
+                   QtQrCode::ErrorCorrectionLevel errorCorrectionLevel) : d(new QtQrCodeData)
+{
+    if (version > 4)
+        d->version = 0;
+    else
+        d->version = discardNegativeNumber(version);
+    d->width = 0;
+    d->margin = 0;
+    d->data = data;
+    d->encodeMode = StringMode;
+    d->proportion = NormalProportion;
+    d->caseSensitivity = Qt::CaseSensitive;
+    d->errorCorrectionLevel = errorCorrectionLevel;
+}
+
+QtQrCode::QtQrCode(const QByteArray &data, int version, QtQrCode::EncodeMode encodeMode)
+    : d(new QtQrCodeData)
+{
+    if (version > 4)
+        d->version = 0;
+    else
+        d->version = discardNegativeNumber(version);
+    d->width = 0;
+    d->margin = 0;
+    d->data = data;
+    d->encodeMode = encodeMode;
+    d->proportion = NormalProportion;
+    d->caseSensitivity = Qt::CaseSensitive;
+    d->errorCorrectionLevel = LowLevel;
+}
+
+QtQrCode::QtQrCode(const QByteArray &data, int version, int margin, EncodeMode encodeMode,
+                   Proportion proportion, Qt::CaseSensitivity caseSensitivity,
+                   ErrorCorrectionLevel errorCorrectionLevel)
+    : d(new QtQrCodeData)
+{
+    if (version > 4)
+        d->version = 0;
+    else
+        d->version = discardNegativeNumber(version);
+    d->width = 0;
+    d->data = data;
+    d->margin = discardNegativeNumber(margin);
+    d->encodeMode = encodeMode;
+    d->proportion = proportion;
+    d->caseSensitivity = caseSensitivity;
+    d->errorCorrectionLevel = errorCorrectionLevel;
 }
 
 QtQrCode::QtQrCode(const QtQrCode &rhs) : d(rhs.d)
@@ -146,13 +209,6 @@ int QtQrCode::width() const
      return d->width;
 }
 
-void QtQrCode::setWidth(int width)
-{
-    if (width != d->width) {
-        d->width = width;
-        this->encode();
-    }
-}
 int QtQrCode::margin() const
 {
      return d->margin;
@@ -161,10 +217,11 @@ int QtQrCode::margin() const
 void QtQrCode::setMargin(int margin)
 {
     if (margin != d->margin) {
-        d->margin = margin;
+        d->margin = discardNegativeNumber(margin);
         this->encode();
     }
 }
+
 int QtQrCode::version() const
 {
      return d->version;
@@ -173,7 +230,10 @@ int QtQrCode::version() const
 void QtQrCode::setVersion(int version)
 {
     if (version != d->version) {
-        d->version = version;
+        if (version > 4)
+            d->version = 0;
+        else
+            d->version = discardNegativeNumber(version);
         this->encode();
     }
 }
@@ -190,6 +250,7 @@ void QtQrCode::setData(const QByteArray &data)
         this->encode();
     }
 }
+
 QtQrCode::EncodeMode QtQrCode::encodeMode() const
 {
      return d->encodeMode;
@@ -202,6 +263,7 @@ void QtQrCode::setEncodeMode(EncodeMode encodeMode)
         this->encode();
     }
 }
+
 QtQrCode::Proportion QtQrCode::proportion() const
 {
      return d->proportion;
@@ -214,6 +276,7 @@ void QtQrCode::setProportion(Proportion proportion)
         this->encode();
     }
 }
+
 Qt::CaseSensitivity QtQrCode::caseSensitivity() const
 {
      return d->caseSensitivity;
@@ -226,6 +289,7 @@ void QtQrCode::setCaseSensitivity(Qt::CaseSensitivity caseSensitivity)
         this->encode();
     }
 }
+
 QtQrCode::ErrorCorrectionLevel QtQrCode::errorCorrectionLevel() const
 {
      return d->errorCorrectionLevel;

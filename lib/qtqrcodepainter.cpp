@@ -32,7 +32,10 @@
 #include <QSvgGenerator>
 
 QtQrCodePainter::QtQrCodePainter()
+    : m_pen(Qt::NoPen), m_qrCode(),
+      m_background(Qt::NoBrush), m_foreground(Qt::SolidPattern)
 {
+    m_margin = 0;
 }
 
 QtQrCodePainter::~QtQrCodePainter()
