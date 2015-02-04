@@ -31,7 +31,7 @@
 #include <QByteArray>
 #include <QSharedDataPointer>
 
-#include "qrencode.h"
+#include "libqrencode/qrencode.h"
 
 class QtQrCodeData;
 

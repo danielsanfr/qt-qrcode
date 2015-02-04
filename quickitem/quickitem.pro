@@ -3,6 +3,8 @@ TARGET = QuickItem
 
 QT       += qml quick widgets
 
+LIBS += -L../lib -lqtqrcode
+
 DEFINES +=
 
 SOURCES += main.cpp \
