@@ -27,15 +27,14 @@
 
 #include "qtqrcodepainter.h"
 
-#include <QRect>
 #include <QSize>
+#include <QRect>
+#include <QRectF>
 #include <QSvgGenerator>
 
 QtQrCodePainter::QtQrCodePainter()
-    : m_pen(Qt::NoPen), m_qrCode(),
-      m_background(Qt::NoBrush), m_foreground(Qt::SolidPattern)
+    : m_pen(Qt::NoPen), m_margin(0), m_background(Qt::transparent), m_foreground(Qt::black)
 {
-    m_margin = 0;
 }
 
 QtQrCodePainter::~QtQrCodePainter()
@@ -55,33 +54,29 @@ void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int width
 {
     float aspect = width/(float) height;
     int painterWidt = (aspect > 1.0) ? height : width;
-    this->paint(painter, qrCode, painterWidt + m_margin*2);
+    this->paint(painter, qrCode, painterWidt);
 }
 
 void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int painterWidth)
 {
     if (qrCode.data().isEmpty())
         return;
-    unsigned char *row, *data;
+    unsigned char *data = (unsigned char *) qrCode.data().constData();
     int width = qrCode.width();
     if (width < 0)
         width = 1;
     QRect rectangle(0, 0, painterWidth, painterWidth);
     double scale = (painterWidth - 2.0*m_margin)/width;
-
     painter.setPen(m_pen);
     painter.setBrush(m_foreground);
     painter.setClipRect(rectangle);
     // Make solid background
     painter.fillRect(rectangle, m_background);
 
-    data = (unsigned char *) qrCode.data().constData();
     for(int y = 0; y < width; ++y) {
-        row = (data + y * width);
-        /* no RLE */
-        for(int x = 0; x < width; ++x) {
-            if(*(row + x) & 0x1)
-                painter.drawRect(m_margin + x*scale, m_margin + y*scale, scale, scale);
+        for(int x = 0; x < width; ++x, ++data) {
+            if(*data & 0x1)
+                painter.drawRect(QRectF(m_margin + x*scale, m_margin + y*scale, scale, scale));
         }
     }
 }
