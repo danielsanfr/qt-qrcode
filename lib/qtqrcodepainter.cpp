@@ -49,6 +49,8 @@ void QtQrCodePainter::paint(QPainter &painter)
 
 void QtQrCodePainter::paint(QPainter &painter, QtQrCode qrCode)
 {
+    if (qrCode.data().isEmpty())
+        return;
     int width = qrCode.width() + m_margin * 2;
     painter.setClipRect(QRect(0, 0, width, width));
     painter.setPen(m_pen);
