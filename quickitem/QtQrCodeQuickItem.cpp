@@ -31,8 +31,6 @@
 #include <QQuickItem>
 #include <QQmlComponent>
 
-#include <QtQrCodePainter>
-
 QtQrCodeQuickItem::QtQrCodeQuickItem(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
 }
@@ -48,8 +46,7 @@ void QtQrCodeQuickItem::registerQmlTypes()
 
 void QtQrCodeQuickItem::paint(QPainter *painter)
 {
-    QtQrCodePainter *qtQrCodePainter = QtQrCodePainter::instance();
-    qtQrCodePainter->paint(*painter, m_qrCode, width(), height());
+    m_qrCodePainter.paint(*painter, m_qrCode, width(), height());
 }
 
 QByteArray QtQrCodeQuickItem::data() const
@@ -61,6 +58,7 @@ void QtQrCodeQuickItem::setData(const QByteArray &data)
 {
     if(m_qrCode.data() != data) {
         m_qrCode.setData(data);
+        update();
         Q_EMIT this->dataChanged(m_qrCode.data());
     }
 }
