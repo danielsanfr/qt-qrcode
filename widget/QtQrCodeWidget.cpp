@@ -44,8 +44,7 @@ void QtQrCodeWidget::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
     QPainter painter(this);
-    QtQrCodePainter *qtQrCodePainter = QtQrCodePainter::instance();
-    qtQrCodePainter->paint(painter, m_qrCode, width(), height());
+    m_qrCodePainter.paint(painter, m_qrCode, width(), height());
 }
 
 QByteArray QtQrCodeWidget::data() const

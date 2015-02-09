@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>745</width>
-    <height>360</height>
+    <width>640</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Hello QR Code</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -27,6 +27,21 @@
     </size>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>20</number>
+    </property>
+    <property name="leftMargin">
+     <number>40</number>
+    </property>
+    <property name="topMargin">
+     <number>40</number>
+    </property>
+    <property name="rightMargin">
+     <number>40</number>
+    </property>
+    <property name="bottomMargin">
+     <number>40</number>
+    </property>
     <item>
      <widget class="QLabel" name="label">
       <property name="sizePolicy">
@@ -40,8 +55,11 @@
         <pointsize>25</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel { color : black; }</string>
+      </property>
       <property name="text">
-       <string>The content of QR Code is: &lt;b&gt;Hello QR Code&lt;/b&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The content of the QR code is:&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hello QR Code&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

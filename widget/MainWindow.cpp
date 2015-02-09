@@ -30,6 +30,8 @@
 
 #include "QtQrCodeWidget.hpp"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -37,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QtQrCodeWidget *qrCodeWidget = new QtQrCodeWidget(this);
-    qrCodeWidget->setData("Hello QR Code");
+    qrCodeWidget->setData(windowTitle().toUtf8());
     qrCodeWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     ui->centralWidget->layout()->addWidget(qrCodeWidget);
