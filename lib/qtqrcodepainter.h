@@ -38,10 +38,8 @@
 class QtQrCodePainter
 {
 public:
-    static QtQrCodePainter *instance() {
-        static QtQrCodePainter s_instance;
-        return &s_instance;
-    }
+    QtQrCodePainter();
+    QtQrCodePainter(const QtQrCode &qrCode);
     ~QtQrCodePainter();
 
     void paint(QPainter &painter);
@@ -56,8 +54,17 @@ public:
     inline const QPen &pen() const { return m_pen; }
     inline void setPen(const QPen &pen) { m_pen = pen; }
 
-    inline int margin() { return m_margin; }
-    inline void setMargin(int margin) { m_margin = margin; }
+    inline float margin() { return m_margin; }
+    inline void setMargin(float margin) { m_margin = margin; }
+
+//    inline void setOffset(float offsetX, float offsetY)
+//    { m_offsetX = offsetX; m_offsetY = offsetY; }
+
+//    inline float offsetX() { return m_offsetX; }
+//    inline void setOffsetX(float offsetX) { m_offsetX = offsetX; }
+
+//    inline float offsetY() { return m_offsetY; }
+//    inline void setOffsetY(float offsetY) { m_offsetY = offsetY; }
 
     inline const QtQrCode &qrCode() const { return m_qrCode; }
     inline void setQrCode(const QtQrCode &qrCode) { m_qrCode = qrCode; }
@@ -72,11 +79,12 @@ public:
 
 private:
     QPen m_pen;
-    int m_margin;
+    float m_margin;
+    float m_offsetX;
+    float m_offsetY;
     QtQrCode m_qrCode;
     QBrush m_background;
     QBrush m_foreground;
-    QtQrCodePainter();
 };
 
 #endif // QRCODEPAINTER_H

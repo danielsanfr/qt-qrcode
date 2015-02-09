@@ -33,7 +33,14 @@
 #include <QSvgGenerator>
 
 QtQrCodePainter::QtQrCodePainter()
-    : m_pen(Qt::NoPen), m_margin(0), m_background(Qt::transparent), m_foreground(Qt::black)
+    : m_pen(Qt::NoPen), m_margin(0), m_offsetX(0), m_offsetY(0), m_qrCode(),
+      m_background(Qt::transparent), m_foreground(Qt::black)
+{
+}
+
+QtQrCodePainter::QtQrCodePainter(const QtQrCode &qrCode)
+    : m_pen(Qt::NoPen), m_margin(0), m_offsetX(0), m_offsetY(0), m_qrCode(qrCode),
+      m_background(Qt::transparent), m_foreground(Qt::black)
 {
 }
 
@@ -52,8 +59,17 @@ void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode)
 
 void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int width, int height)
 {
+    m_offsetX = 0;
+    m_offsetY = 0;
+    int painterWidt = 0;
     float aspect = width/(float) height;
-    int painterWidt = (aspect > 1.0) ? height : width;
+    if (aspect > 1.0) {
+        painterWidt = height;
+        m_offsetX = width/2.0 - painterWidt/2.0;
+    } else {
+        painterWidt = width;
+         m_offsetY = height/2.0 - painterWidt/2.0;
+    }
     this->paint(painter, qrCode, painterWidt);
 }
 
@@ -65,7 +81,7 @@ void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int paint
     int width = qrCode.width();
     if (width < 0)
         width = 1;
-    QRect rectangle(0, 0, painterWidth, painterWidth);
+    QRect rectangle(m_offsetX, m_offsetY, painterWidth, painterWidth);
     double scale = (painterWidth - 2.0*m_margin)/width;
     painter.setPen(m_pen);
     painter.setBrush(m_foreground);
@@ -76,7 +92,8 @@ void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int paint
     for(int y = 0; y < width; ++y) {
         for(int x = 0; x < width; ++x, ++data) {
             if(*data & 0x1)
-                painter.drawRect(QRectF(m_margin + x*scale, m_margin + y*scale, scale, scale));
+                painter.drawRect(QRectF(m_offsetX + m_margin + x*scale,
+                                        m_offsetY + m_margin + y*scale, scale, scale));
         }
     }
 }
