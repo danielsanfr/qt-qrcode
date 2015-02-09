@@ -52,30 +52,84 @@ public:
     QImage toImage(int size, const QtQrCode &qrCode);
 
     inline const QPen &pen() const { return m_pen; }
-    inline void setPen(const QPen &pen) { m_pen = pen; }
+    inline  bool setPen(const QPen &pen)
+    {
+        if (m_pen != pen) {
+            m_pen = pen;
+            return true;
+        }
+        return false;
+    }
 
-    inline float margin() { return m_margin; }
-    inline void setMargin(float margin) { m_margin = margin; }
+    inline float margin() const { return m_margin; }
+    inline  bool setMargin(float margin)
+    {
+        if (m_margin != margin) {
+            m_margin = margin;
+            return true;
+        }
+        return false;
+    }
 
-//    inline void setOffset(float offsetX, float offsetY)
-//    { m_offsetX = offsetX; m_offsetY = offsetY; }
+//    inline  bool setOffset(float offsetX, float offsetY)
+//    {
+//        if (m_offsetX != offsetX || m_offsetY != offsetY) {
+//            m_offsetX = offsetX;
+//            m_offsetY = offsetY;
+//            return true;
+//        }
+//        return false;
+//    }
 
 //    inline float offsetX() { return m_offsetX; }
-//    inline void setOffsetX(float offsetX) { m_offsetX = offsetX; }
+//    inline  bool setOffsetX(float offsetX)
+//    {
+//        if (m_offsetX != offsetX) {
+//            m_offsetX = offsetX;
+//            return true;
+//        }
+//        return false;
+//    }
 
 //    inline float offsetY() { return m_offsetY; }
-//    inline void setOffsetY(float offsetY) { m_offsetY = offsetY; }
+//    inline  bool setOffsetY(float offsetY)
+//    {
+//        if (m_offsetY != offsetY) {
+//            m_offsetY = offsetY;
+//            return true;
+//        }
+//        return false;
+//    }
 
     inline const QtQrCode &qrCode() const { return m_qrCode; }
-    inline void setQrCode(const QtQrCode &qrCode) { m_qrCode = qrCode; }
+    inline  bool setQrCode(const QtQrCode &qrCode)
+    {
+        if (m_qrCode != qrCode) {
+            m_qrCode = qrCode;
+            return true;
+        }
+        return false;
+    }
 
-    inline const QBrush &background() { return m_background; }
-    inline void setBackground(const QBrush &background)
-    { m_background = background; }
+    inline const QBrush &background() const { return m_background; }
+    inline  bool setBackground(const QBrush &background)
+    {
+        if (m_background != background) {
+            m_background = background;
+            return true;
+        }
+        return false;
+    }
 
-    inline const QBrush &foreground() { return m_foreground; }
-    inline void setForeground(const QBrush &foreground)
-    { m_foreground = foreground; }
+    inline const QBrush &foreground() const { return m_foreground; }
+    inline  bool setForeground(const QBrush &foreground)
+    {
+        if (m_foreground != foreground) {
+            m_foreground = foreground;
+            return true;
+        }
+        return false;
+    }
 
 private:
     QPen m_pen;
