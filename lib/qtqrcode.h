@@ -66,9 +66,6 @@ public:
 
     int width() const;
 
-    int margin() const;
-    void setMargin(int margin);
-
     int version() const;
     void setVersion(int version);
 

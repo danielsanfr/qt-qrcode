@@ -40,7 +40,6 @@ class QtQrCodeData : public QSharedData
     friend class QtQrCode;
 private:
     int width;
-    int margin;
     int version;
     QByteArray data;
     QtQrCode::EncodeMode encodeMode;
@@ -52,7 +51,6 @@ private:
 QtQrCode::QtQrCode() : d(new QtQrCodeData)
 {
     d->width = 0;
-    d->margin = 0;
     d->version = 0;
     d->encodeMode = StringMode;
     d->proportion = NormalProportion;
@@ -68,7 +66,6 @@ QtQrCode::QtQrCode(const QByteArray &data, int version,
     else
         d->version = discardNegativeNumber(version);
     d->width = 0;
-    d->margin = 0;
     d->data = data;
     d->encodeMode = StringMode;
     d->proportion = NormalProportion;
@@ -84,7 +81,6 @@ QtQrCode::QtQrCode(const QByteArray &data, int version, QtQrCode::EncodeMode enc
     else
         d->version = discardNegativeNumber(version);
     d->width = 0;
-    d->margin = 0;
     d->data = data;
     d->encodeMode = encodeMode;
     d->proportion = NormalProportion;
@@ -103,7 +99,6 @@ QtQrCode::QtQrCode(const QByteArray &data, int version, int margin, EncodeMode e
         d->version = discardNegativeNumber(version);
     d->width = 0;
     d->data = data;
-    d->margin = discardNegativeNumber(margin);
     d->encodeMode = encodeMode;
     d->proportion = proportion;
     d->caseSensitivity = caseSensitivity;
@@ -207,19 +202,6 @@ void QtQrCode::encodeSKanji()
 int QtQrCode::width() const
 {
      return d->width;
-}
-
-int QtQrCode::margin() const
-{
-     return d->margin;
-}
-
-void QtQrCode::setMargin(int margin)
-{
-    if (margin != d->margin) {
-        d->margin = discardNegativeNumber(margin);
-        this->encode();
-    }
 }
 
 int QtQrCode::version() const
