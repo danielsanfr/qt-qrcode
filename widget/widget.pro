@@ -10,9 +10,11 @@ LIBS += -L../lib -lqtqrcode
 DEFINES +=
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+        MainWindow.cpp \
+    QtQrCodeWidget.cpp
 
-HEADERS  += MainWindow.hpp
+HEADERS  += MainWindow.hpp \
+    QtQrCodeWidget.hpp
 
 FORMS    += MainWindow.ui
 

@@ -1,12 +1,12 @@
 /****************************************************************************
  *
  * Copyright (c) 2015 Daniel San, All rights reserved.
- * 
+ *
  *    Contact: daniel.samrocha@gmail.com
- *       File: MainWindow.cpp
+ *       File: QtQrCodeWidget.hpp
  *     Author: daniel
  * Created on: 03/02/2015
- *    Version: 
+ *    Version:
  *
  * This file is part of the Qt QRCode library.
  *
@@ -14,36 +14,51 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3.0 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  *
  ***************************************************************************/
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
-
 #include "QtQrCodeWidget.hpp"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+#include <QPainter>
+#include <QPaintEvent>
+
+#include <QtQrCodePainter>
+
+QtQrCodeWidget::QtQrCodeWidget(QWidget *parent) : QWidget(parent)
 {
-    ui->setupUi(this);
-
-    QtQrCodeWidget *qrCodeWidget = new QtQrCodeWidget(this);
-    qrCodeWidget->setData("Hello QR Code");
-    qrCodeWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    ui->centralWidget->layout()->addWidget(qrCodeWidget);
 }
 
-MainWindow::~MainWindow()
+QtQrCodeWidget::~QtQrCodeWidget()
 {
-    delete ui;
 }
+
+void QtQrCodeWidget::paintEvent(QPaintEvent *event)
+{
+    QWidget::paintEvent(event);
+    QPainter painter(this);
+    QtQrCodePainter *qtQrCodePainter = QtQrCodePainter::instance();
+    qtQrCodePainter->paint(painter, m_qrCode, width(), height());
+}
+
+QByteArray QtQrCodeWidget::data() const
+{
+    return m_qrCode.data();
+}
+
+void QtQrCodeWidget::setData(const QByteArray &data)
+{
+    if (m_qrCode.data() != data) {
+        m_qrCode.setData(data);
+        QWidget::repaint();
+    }
+}
+
+

@@ -1,12 +1,12 @@
 /****************************************************************************
  *
  * Copyright (c) 2015 Daniel San, All rights reserved.
- * 
+ *
  *    Contact: daniel.samrocha@gmail.com
- *       File: MainWindow.cpp
+ *       File: QtQrCodeWidget.cpp
  *     Author: daniel
  * Created on: 03/02/2015
- *    Version: 
+ *    Version:
  *
  * This file is part of the Qt QRCode library.
  *
@@ -14,36 +14,43 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3.0 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  *
  ***************************************************************************/
 
-#include "MainWindow.hpp"
-#include "ui_MainWindow.h"
+#ifndef QTQRCODEWIDGET_HPP
+#define QTQRCODEWIDGET_HPP
 
-#include "QtQrCodeWidget.hpp"
+#include <QWidget>
+#include <QByteArray>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+#include <QtQrCode>
+
+QT_BEGIN_NAMESPACE
+class QPaintEvent;
+QT_END_NAMESPACE
+
+class QtQrCodeWidget : public QWidget
 {
-    ui->setupUi(this);
+    Q_OBJECT
+public:
+    explicit QtQrCodeWidget(QWidget *parent = 0);
+    ~QtQrCodeWidget();
 
-    QtQrCodeWidget *qrCodeWidget = new QtQrCodeWidget(this);
-    qrCodeWidget->setData("Hello QR Code");
-    qrCodeWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QByteArray data() const;
+    void setData(const QByteArray &data);
 
-    ui->centralWidget->layout()->addWidget(qrCodeWidget);
-}
+protected:
+    void paintEvent(QPaintEvent *event);
+private:
+    QtQrCode m_qrCode;
+};
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+#endif // QTQRCODEWIDGET_HPP
