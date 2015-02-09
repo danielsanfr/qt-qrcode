@@ -84,6 +84,9 @@ public:
     ErrorCorrectionLevel errorCorrectionLevel() const;
     void setErrorCorrectionLevel(QtQrCode::ErrorCorrectionLevel errorCorrectionLevel);
 
+    bool operator ==(const QtQrCode &other);
+    bool operator !=(const QtQrCode &other);
+
 protected:
     QSharedDataPointer<QtQrCodeData> d;
     void encode();

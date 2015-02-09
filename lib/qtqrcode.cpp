@@ -284,3 +284,13 @@ void QtQrCode::setErrorCorrectionLevel(ErrorCorrectionLevel errorCorrectionLevel
         this->encode();
     }
 }
+
+bool QtQrCode::operator ==(const QtQrCode &other)
+{
+    return d->data == other.d->data;
+}
+
+bool QtQrCode::operator !=(const QtQrCode &other)
+{
+    return !(*this == other);
+}
