@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QtQrCodeWidget *qrCodeWidget = new QtQrCodeWidget(this);
+    qrCodeWidget->setBackground(Qt::transparent);
     qrCodeWidget->setData(windowTitle().toUtf8());
     qrCodeWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 

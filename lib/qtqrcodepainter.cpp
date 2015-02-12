@@ -33,13 +33,13 @@
 #include <QSvgGenerator>
 
 QtQrCodePainter::QtQrCodePainter()
-    : m_margin(1), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
+    : m_margin(0), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
       m_qrCode(), m_background(Qt::white), m_foreground(Qt::black)
 {
 }
 
 QtQrCodePainter::QtQrCodePainter(const QtQrCode &qrCode)
-    : m_margin(1), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
+    : m_margin(0), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
       m_qrCode(qrCode), m_background(Qt::white), m_foreground(Qt::black)
 {
 }

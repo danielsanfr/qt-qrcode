@@ -51,6 +51,7 @@ ApplicationWindow {
         }
         QtQrCode {
             data: window.title
+            background: "transparent"
             Layout.fillWidth: true
             Layout.fillHeight: true
         } // QtQrCode
