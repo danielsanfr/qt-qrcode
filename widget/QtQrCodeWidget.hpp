@@ -42,7 +42,6 @@ QT_END_NAMESPACE
 class QtQrCodeWidget : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(Qt::PenStyle pen READ pen WRITE setPen NOTIFY penChanged)
     Q_PROPERTY(QByteArray data READ data WRITE setData NOTIFY dataChanged)
     Q_PROPERTY(float margin READ margin WRITE setMargin NOTIFY marginChanged)
     Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
@@ -50,15 +49,6 @@ class QtQrCodeWidget : public QWidget
 public:
     explicit QtQrCodeWidget(QWidget *parent = 0);
     ~QtQrCodeWidget();
-
-    inline const Qt::PenStyle &pen() const { return m_qrCodePainter.pen().style(); }
-    inline void setPen(Qt::PenStyle penStyle)
-    {
-        if (m_qrCodePainter.setPen(QPen(penStyle))) {
-            QWidget::repaint();
-            emit penChanged(m_qrCodePainter.pen());
-        }
-    }
 
     inline float margin() const { return m_qrCodePainter.margin(); }
     inline virtual void setMargin(float margin)
@@ -90,7 +80,6 @@ public:
     QByteArray data() const;
     void setData(const QByteArray &data);
 signals:
-    void penChanged(const QPen &pen);
     void dataChanged(const QByteArray &data);
     void marginChanged(int margin);
     void backgroundChanged(const QBrush &background);
