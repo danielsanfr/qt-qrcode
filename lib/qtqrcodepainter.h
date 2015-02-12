@@ -51,16 +51,6 @@ public:
     QImage toImage(int size);
     QImage toImage(int size, const QtQrCode &qrCode);
 
-    inline const QPen &pen() const { return m_pen; }
-    inline  bool setPen(const QPen &pen)
-    {
-        if (m_pen != pen) {
-            m_pen = pen;
-            return true;
-        }
-        return false;
-    }
-
     inline float margin() const { return m_margin; }
     inline  bool setMargin(float margin)
     {
@@ -132,10 +122,10 @@ public:
     }
 
 private:
-    QPen m_pen;
     float m_margin;
     float m_offsetX;
     float m_offsetY;
+    bool m_svgPaint;
     QtQrCode m_qrCode;
     QBrush m_background;
     QBrush m_foreground;

@@ -27,20 +27,20 @@
 
 #include "qtqrcodepainter.h"
 
+#include <QDebug>
 #include <QSize>
-#include <QRect>
 #include <QRectF>
 #include <QSvgGenerator>
 
 QtQrCodePainter::QtQrCodePainter()
-    : m_pen(Qt::NoPen), m_margin(0), m_offsetX(0), m_offsetY(0), m_qrCode(),
-      m_background(Qt::transparent), m_foreground(Qt::black)
+    : m_margin(1), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
+      m_qrCode(), m_background(Qt::white), m_foreground(Qt::black)
 {
 }
 
 QtQrCodePainter::QtQrCodePainter(const QtQrCode &qrCode)
-    : m_pen(Qt::NoPen), m_margin(0), m_offsetX(0), m_offsetY(0), m_qrCode(qrCode),
-      m_background(Qt::transparent), m_foreground(Qt::black)
+    : m_margin(1), m_offsetX(0), m_offsetY(0), m_svgPaint(false),
+      m_qrCode(qrCode), m_background(Qt::white), m_foreground(Qt::black)
 {
 }
 
@@ -77,25 +77,27 @@ void QtQrCodePainter::paint(QPainter &painter, const QtQrCode &qrCode, int paint
 {
     if (qrCode.data().isEmpty())
         return;
-    unsigned char *data = (unsigned char *) qrCode.data().constData();
     int width = qrCode.width();
+    float aux = (m_svgPaint) ? 0.05 : 0.0;
+    unsigned char *data = (unsigned char *) qrCode.data().constData();
     if (width < 0)
         width = 1;
-    QRect rectangle(m_offsetX, m_offsetY, painterWidth, painterWidth);
-    double scale = (painterWidth - 2.0*m_margin)/width;
-    painter.setPen(m_pen);
+    float scale = (painterWidth - 2.0*m_margin)/ (float) width;
+    QRectF rectangle(m_offsetX, m_offsetY, painterWidth, painterWidth);
+    painter.setPen(Qt::NoPen);
     painter.setBrush(m_foreground);
     painter.setClipRect(rectangle);
-    // Make solid background
     painter.fillRect(rectangle, m_background);
 
     for(int y = 0; y < width; ++y) {
         for(int x = 0; x < width; ++x, ++data) {
             if(*data & 0x1)
-                painter.drawRect(QRectF(m_offsetX + m_margin + x*scale,
-                                        m_offsetY + m_margin + y*scale, scale, scale));
+                painter.drawRect(QRectF(m_offsetX + m_margin + x*scale - aux,
+                                        m_offsetY + m_margin + y*scale - aux,
+                                        scale + 2*aux, scale + 2*aux));
         }
     }
+    m_svgPaint = false;
 }
 
 bool QtQrCodePainter::toSvg(const QString &fileName, int size)
@@ -112,12 +114,12 @@ bool QtQrCodePainter::toSvg(const QString &fileName, int size, const QtQrCode &q
     svgGenerator.setFileName(fileName);
     svgGenerator.setSize(QSize(size, size));
     int width = qrCode.width() + m_margin * 2;
-    svgGenerator.setViewBox(QRect(0, 0, width, width));
+    svgGenerator.setViewBox(QRectF(0, 0, width, width));
 
-    QPainter painter;
-    painter.begin(&svgGenerator);
+    m_svgPaint = true;
+    QPainter painter(&svgGenerator);
     this->paint(painter);
-    painter.end();
+
     return true;
 }
 
@@ -133,12 +135,9 @@ QImage QtQrCodePainter::toImage(int size, const QtQrCode &qrCode)
 
     int width = qrCode.width() + m_margin * 2;
     QImage img(width, width, QImage::Format_ARGB32);
-    img.fill(Qt::transparent);
 
-    QPainter painter;
-    painter.begin(&img);
+    QPainter painter(&img);
     this->paint(painter);
-    painter.end();
 
     if (size > 0)
         return img.scaled(size, size);
