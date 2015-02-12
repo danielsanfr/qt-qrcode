@@ -46,7 +46,7 @@ void QtQrCodeQuickItem::registerQmlTypes()
 
 void QtQrCodeQuickItem::paint(QPainter *painter)
 {
-    m_qrCodePainter.paint(*painter, m_qrCode, width(), height());
+    m_qrCodePainter.paint(m_qrCode, *painter, width(), height());
 }
 
 QByteArray QtQrCodeQuickItem::data() const
