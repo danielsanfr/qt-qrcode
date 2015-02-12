@@ -61,36 +61,6 @@ public:
         return false;
     }
 
-//    inline  bool setOffset(float offsetX, float offsetY)
-//    {
-//        if (m_offsetX != offsetX || m_offsetY != offsetY) {
-//            m_offsetX = offsetX;
-//            m_offsetY = offsetY;
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    inline float offsetX() { return m_offsetX; }
-//    inline  bool setOffsetX(float offsetX)
-//    {
-//        if (m_offsetX != offsetX) {
-//            m_offsetX = offsetX;
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    inline float offsetY() { return m_offsetY; }
-//    inline  bool setOffsetY(float offsetY)
-//    {
-//        if (m_offsetY != offsetY) {
-//            m_offsetY = offsetY;
-//            return true;
-//        }
-//        return false;
-//    }
-
     inline const QtQrCode &qrCode() const { return m_qrCode; }
     inline  bool setQrCode(const QtQrCode &qrCode)
     {
