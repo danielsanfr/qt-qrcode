@@ -28,7 +28,6 @@
 #ifndef QRCODEPAINTER_H
 #define QRCODEPAINTER_H
 
-#include <QPen>
 #include <QImage>
 #include <QBrush>
 #include <QPainter>
@@ -38,34 +37,21 @@
 class QtQrCodePainter
 {
 public:
-    QtQrCodePainter();
-    QtQrCodePainter(const QtQrCode &qrCode);
+    QtQrCodePainter(float margin = 0.0, const QBrush &background = Qt::white,
+                    const QBrush &foreground = Qt::black);
     ~QtQrCodePainter();
 
-    void paint(QPainter &painter);
-    void paint(QPainter &painter, const QtQrCode &qrCode);
-    void paint(QPainter &painter, const QtQrCode &qrCode, int width, int height);
-    void paint(QPainter &painter, const QtQrCode &qrCode, int painterWidth);
-    bool toSvg(const QString &fileName, int size);
-    bool toSvg(const QString &fileName, int size, const QtQrCode &qrCode);
-    QImage toImage(int size);
-    QImage toImage(int size, const QtQrCode &qrCode);
+    void paint(const QtQrCode &qrCode, QPainter &painter);
+    void paint(const QtQrCode &qrCode, QPainter &painter, int width, int height);
+    void paint(const QtQrCode &qrCode, QPainter &painter, int painterWidth);
+    QImage toImage(const QtQrCode &qrCode, int size);
+    bool saveSvg(const QtQrCode &qrCode, const QString &fileName, int size);
 
     inline float margin() const { return m_margin; }
     inline  bool setMargin(float margin)
     {
         if (m_margin != margin) {
             m_margin = margin;
-            return true;
-        }
-        return false;
-    }
-
-    inline const QtQrCode &qrCode() const { return m_qrCode; }
-    inline  bool setQrCode(const QtQrCode &qrCode)
-    {
-        if (m_qrCode != qrCode) {
-            m_qrCode = qrCode;
             return true;
         }
         return false;
@@ -96,7 +82,6 @@ private:
     float m_offsetX;
     float m_offsetY;
     bool m_svgPaint;
-    QtQrCode m_qrCode;
     QBrush m_background;
     QBrush m_foreground;
 };
