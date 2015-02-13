@@ -10,6 +10,7 @@ This Qt library wrapper was developed by **Daniel San F. da Rocha**. Any questio
 ## License
 
 Copyright (C) 2015 [Daniel San F. da Rocha](http://www.danielsan.com.br)
+
 Copyright (C) 2006-2012 [Kentaro Fukuchi](http://fukuchi.org/)
 
 > This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3.0 of the License, or (at your option) any later version.
