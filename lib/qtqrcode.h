@@ -53,13 +53,13 @@ public:
         QuartileLevel = QR_ECLEVEL_Q,
         HighLevel = QR_ECLEVEL_H
     };
-    QtQrCode();
-    QtQrCode(const QByteArray &data, int version,
-             ErrorCorrectionLevel errorCorrectionLevel = LowLevel);
-    QtQrCode(const QByteArray &data, int version, EncodeMode encodeMode = StringMode);
-    QtQrCode(const QByteArray &data, int version, int margin, EncodeMode encodeMode,
-             Proportion proportion, Qt::CaseSensitivity caseSensitivity,
-             ErrorCorrectionLevel errorCorrectionLevel);
+    QtQrCode(int version);
+    QtQrCode(QtQrCode::EncodeMode encodeMod);
+    QtQrCode(const QByteArray &data = "", int version = 0,
+             QtQrCode::EncodeMode encodeMode = StringMode,
+             QtQrCode::Proportion proportion = NormalProportion,
+             Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive,
+             QtQrCode::ErrorCorrectionLevel errorCorrectionLevel = LowLevel);
     QtQrCode(const QtQrCode &);
     QtQrCode &operator=(const QtQrCode &);
     ~QtQrCode();
@@ -91,6 +91,11 @@ protected:
     QSharedDataPointer<QtQrCodeData> d;
     void encode();
 private:
+    void constructorPrivate(const QByteArray &data = "", int version = 0,
+                       QtQrCode::EncodeMode encodeMode = StringMode,
+                       QtQrCode::Proportion proportion = NormalProportion,
+                       Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive,
+                       QtQrCode::ErrorCorrectionLevel errorCorrectionLevel = LowLevel);
     void setBaseQrCodeData(QRcode *qrCode);
     void encodeData();
     void encodeString();

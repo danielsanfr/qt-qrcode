@@ -48,57 +48,31 @@ private:
     QtQrCode::ErrorCorrectionLevel errorCorrectionLevel;
 };
 
-QtQrCode::QtQrCode() : d(new QtQrCodeData)
+QtQrCode::QtQrCode(int version) : d(new QtQrCodeData)
 {
-    d->width = 0;
-    d->version = 0;
-    d->encodeMode = StringMode;
-    d->proportion = NormalProportion;
-    d->caseSensitivity = Qt::CaseSensitive;
-    d->errorCorrectionLevel = LowLevel;
+    constructorPrivate("", version);
 }
 
-QtQrCode::QtQrCode(const QByteArray &data, int version,
-                   QtQrCode::ErrorCorrectionLevel errorCorrectionLevel) : d(new QtQrCodeData)
+QtQrCode::QtQrCode(QtQrCode::EncodeMode encodeMod) : d(new QtQrCodeData)
 {
-    if (version > 4)
-        d->version = 0;
-    else
-        d->version = discardNegativeNumber(version);
-    d->width = 0;
-    d->data = data;
-    d->encodeMode = StringMode;
-    d->proportion = NormalProportion;
-    d->caseSensitivity = Qt::CaseSensitive;
-    d->errorCorrectionLevel = errorCorrectionLevel;
+    constructorPrivate("", 0, encodeMod);
 }
 
-QtQrCode::QtQrCode(const QByteArray &data, int version, QtQrCode::EncodeMode encodeMode)
+QtQrCode::QtQrCode(const QByteArray &data, int version, QtQrCode::EncodeMode encodeMode,
+                   QtQrCode::Proportion proportion, Qt::CaseSensitivity caseSensitivity,
+                   QtQrCode::ErrorCorrectionLevel errorCorrectionLevel)
     : d(new QtQrCodeData)
 {
-    if (version > 4)
-        d->version = 0;
-    else
-        d->version = discardNegativeNumber(version);
-    d->width = 0;
-    d->data = data;
-    d->encodeMode = encodeMode;
-    d->proportion = NormalProportion;
-    d->caseSensitivity = Qt::CaseSensitive;
-    d->errorCorrectionLevel = LowLevel;
+    constructorPrivate(data, version, encodeMode, proportion,caseSensitivity, errorCorrectionLevel);
 }
 
-QtQrCode::QtQrCode(const QByteArray &data, int version, int margin, EncodeMode encodeMode,
-                   Proportion proportion, Qt::CaseSensitivity caseSensitivity,
-                   ErrorCorrectionLevel errorCorrectionLevel)
-    : d(new QtQrCodeData)
+void QtQrCode::constructorPrivate(const QByteArray &data, int version, QtQrCode::EncodeMode encodeMode,
+                             QtQrCode::Proportion proportion, Qt::CaseSensitivity caseSensitivity,
+                             QtQrCode::ErrorCorrectionLevel errorCorrectionLevel)
 {
-    if (version > 4)
-        d->version = 0;
-    else
-        d->version = discardNegativeNumber(version);
     d->width = 0;
     d->data = data;
+    d->version = (version > 4) ? 0 : discardNegativeNumber(version);
     d->encodeMode = encodeMode;
     d->proportion = proportion;
     d->caseSensitivity = caseSensitivity;
