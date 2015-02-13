@@ -37,7 +37,6 @@
 
 QT_BEGIN_NAMESPACE
 class QPainter;
-class QQuickItem;
 QT_END_NAMESPACE
 
 class QtQrCodeQuickItem : public QQuickPaintedItem

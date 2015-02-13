@@ -28,8 +28,6 @@
 #include "QtQrCodeQuickItem.hpp"
 
 #include <QPainter>
-#include <QQuickItem>
-#include <QQmlComponent>
 
 QtQrCodeQuickItem::QtQrCodeQuickItem(QQuickItem *parent) : QQuickPaintedItem(parent)
 {
